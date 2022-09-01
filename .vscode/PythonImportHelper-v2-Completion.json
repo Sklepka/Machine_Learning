@@ -1,0 +1,291 @@
+[
+    {
+        "label": "LinearRegression",
+        "importPath": "statistics",
+        "description": "statistics",
+        "isExtraImport": true,
+        "detail": "statistics",
+        "documentation": {}
+    },
+    {
+        "label": "matplotlib.pyplot",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "matplotlib.pyplot",
+        "description": "matplotlib.pyplot",
+        "detail": "matplotlib.pyplot",
+        "documentation": {}
+    },
+    {
+        "label": "pandas",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pandas",
+        "description": "pandas",
+        "detail": "pandas",
+        "documentation": {}
+    },
+    {
+        "label": "sklearn.ensemble",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sklearn.ensemble",
+        "description": "sklearn.ensemble",
+        "detail": "sklearn.ensemble",
+        "documentation": {}
+    },
+    {
+        "label": "RandomForestRegressor",
+        "importPath": "sklearn.ensemble",
+        "description": "sklearn.ensemble",
+        "isExtraImport": true,
+        "detail": "sklearn.ensemble",
+        "documentation": {}
+    },
+    {
+        "label": "RandomForestClassifier",
+        "importPath": "sklearn.ensemble",
+        "description": "sklearn.ensemble",
+        "isExtraImport": true,
+        "detail": "sklearn.ensemble",
+        "documentation": {}
+    },
+    {
+        "label": "LinearRegression",
+        "importPath": "sklearn.linear_model",
+        "description": "sklearn.linear_model",
+        "isExtraImport": true,
+        "detail": "sklearn.linear_model",
+        "documentation": {}
+    },
+    {
+        "label": "train_test_split",
+        "importPath": "sklearn.model_selection",
+        "description": "sklearn.model_selection",
+        "isExtraImport": true,
+        "detail": "sklearn.model_selection",
+        "documentation": {}
+    },
+    {
+        "label": "max_error",
+        "importPath": "sklearn.metrics",
+        "description": "sklearn.metrics",
+        "isExtraImport": true,
+        "detail": "sklearn.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "mean_absolute_error",
+        "importPath": "sklearn.metrics",
+        "description": "sklearn.metrics",
+        "isExtraImport": true,
+        "detail": "sklearn.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "r2_score",
+        "importPath": "sklearn.metrics",
+        "description": "sklearn.metrics",
+        "isExtraImport": true,
+        "detail": "sklearn.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "try_model",
+        "kind": 2,
+        "importPath": "Bitcoin.main",
+        "description": "Bitcoin.main",
+        "peekOfCode": "def try_model(model):\n    model.fit(X_train,y_train) # Обучаем модель на тренировочной выборке\n    y_pred = model.predict(X_test) # Проверяем модель на тестовой выборке\n    print(model)\n    print(\"max_eror = \", max_error(y_pred, y_test))\n    print(\"mean_absolute_error = \", mean_absolute_error(y_pred, y_test))\n    print(\"r2_score = \", r2_score(y_pred, y_test))\nrfr = RandomForestRegressor()\nrfr.feature_importances_ # важность колонок, показывает влияние колонок оказываемое на модель\npd.DataFrame(data = [rfr.feature_importances_], columns = X.columns).T.sort_values(by = 0, ascending = False) # Выведем колонки в порядке важности",
+        "detail": "Bitcoin.main",
+        "documentation": {}
+    },
+    {
+        "label": "bitcoin",
+        "kind": 5,
+        "importPath": "Bitcoin.main",
+        "description": "Bitcoin.main",
+        "peekOfCode": "bitcoin = pd.read_csv(\"Bitcoin/Bitfinex_BTCUSD_d.csv\", sep = \";\", index_col = 0) # Читаем файл и убираем лишнюю колонку, разделитель указываем \";\"\n# преобразуем строку в структуру \"DateTime\"\nbitcoin.date = pd.to_datetime(bitcoin.date,  format=\"%d.%m.%Y %H:%M\")\n# plt.plot(bitcoin.date, bitcoin.open, label = \"open\") # строим зависимость даты от цены открытия биткоина\n# plt.show()\n# roll_window = bitcoin.open.rolling(window = 60).mean().plot() # Rolling Window = скользящее окно. Среднее значение за 60 дней (строк)\n# plt.show()\n# Строим модель предсказания. Х = \"добавить колонки на основе недавних значений\", н = \"Цена закрытия завтрашнего дня (какой завтра будет close\"? задача - регрессия.\n# Feature Engineering - придумывание новых колонок\n# Важный момент: не включать текущий день = shift(1) (например в среднем значении за семь дней, седьмой день включается в расчет)",
+        "detail": "Bitcoin.main",
+        "documentation": {}
+    },
+    {
+        "label": "bitcoin.date",
+        "kind": 5,
+        "importPath": "Bitcoin.main",
+        "description": "Bitcoin.main",
+        "peekOfCode": "bitcoin.date = pd.to_datetime(bitcoin.date,  format=\"%d.%m.%Y %H:%M\")\n# plt.plot(bitcoin.date, bitcoin.open, label = \"open\") # строим зависимость даты от цены открытия биткоина\n# plt.show()\n# roll_window = bitcoin.open.rolling(window = 60).mean().plot() # Rolling Window = скользящее окно. Среднее значение за 60 дней (строк)\n# plt.show()\n# Строим модель предсказания. Х = \"добавить колонки на основе недавних значений\", н = \"Цена закрытия завтрашнего дня (какой завтра будет close\"? задача - регрессия.\n# Feature Engineering - придумывание новых колонок\n# Важный момент: не включать текущий день = shift(1) (например в среднем значении за семь дней, седьмой день включается в расчет)\nbitcoin[\"open_mean_7d\"] = bitcoin.open.shift(1).rolling(window = 7).mean() # Среднее значение открытия за последнии 7 дней\nbitcoin[\"volume_btc_max_30d\"] = bitcoin[\"Volume BTC\"].shift(1).rolling(window = 30).max() # Максимальное объем торгов за 30 дней",
+        "detail": "Bitcoin.main",
+        "documentation": {}
+    },
+    {
+        "label": "bitcoin[\"open_mean_7d\"]",
+        "kind": 5,
+        "importPath": "Bitcoin.main",
+        "description": "Bitcoin.main",
+        "peekOfCode": "bitcoin[\"open_mean_7d\"] = bitcoin.open.shift(1).rolling(window = 7).mean() # Среднее значение открытия за последнии 7 дней\nbitcoin[\"volume_btc_max_30d\"] = bitcoin[\"Volume BTC\"].shift(1).rolling(window = 30).max() # Максимальное объем торгов за 30 дней\n# Создаем 7 колонок с недавними значениями close, для проверки на сколько модель правильна\nfor day in range(1, 8):\n    #print(f\"Добавляем колонку close за {day} д. назад\")\n    bitcoin[f\"close_{day}d\"] = bitcoin[\"close\"].shift(day)\n# ToDO: Добавить колонки на основе дня месяца и года, взяв информацию из колонки date\n# Например bitcoin.date.dt.weekday\n# https://pandas.pydata.org/docs/reference/api/pandes.Series.dt.weekday.html\n# Уберем колонки date и symbol",
+        "detail": "Bitcoin.main",
+        "documentation": {}
+    },
+    {
+        "label": "bitcoin[\"volume_btc_max_30d\"]",
+        "kind": 5,
+        "importPath": "Bitcoin.main",
+        "description": "Bitcoin.main",
+        "peekOfCode": "bitcoin[\"volume_btc_max_30d\"] = bitcoin[\"Volume BTC\"].shift(1).rolling(window = 30).max() # Максимальное объем торгов за 30 дней\n# Создаем 7 колонок с недавними значениями close, для проверки на сколько модель правильна\nfor day in range(1, 8):\n    #print(f\"Добавляем колонку close за {day} д. назад\")\n    bitcoin[f\"close_{day}d\"] = bitcoin[\"close\"].shift(day)\n# ToDO: Добавить колонки на основе дня месяца и года, взяв информацию из колонки date\n# Например bitcoin.date.dt.weekday\n# https://pandas.pydata.org/docs/reference/api/pandes.Series.dt.weekday.html\n# Уберем колонки date и symbol\nbitcoin.drop(\"symbol\", axis=1, inplace=True)",
+        "detail": "Bitcoin.main",
+        "documentation": {}
+    },
+    {
+        "label": "bitcoin.fillna(method",
+        "kind": 5,
+        "importPath": "Bitcoin.main",
+        "description": "Bitcoin.main",
+        "peekOfCode": "bitcoin.fillna(method = \"backfill\", inplace = True) # fillna - позволяет заполнить пустые значения\nbitcoin[\"target\"] = bitcoin[\"close\"].shift(-1) # target - close следующего дня/ но мы создали еще один NAN\n# [:-1] \"все, кроме последнего элемента\"\nX = bitcoin[:-1].drop(\"target\", axis=1)\ny = bitcoin[:-1].target\n# Разбиваем на тренировочную и тестовую выборку\n# train - обучающая - учебник - X-train, y-train\n# test - проверочная - экзамен - Даем модели X_test\n# и просим сделать предсказание y_pred, и сравнием с  y _test\nX_train, X_test, y_train, y_test = train_test_split(X,y, test_size = 0.33) # разделяем и отдаем 33% на тестовую выборку",
+        "detail": "Bitcoin.main",
+        "documentation": {}
+    },
+    {
+        "label": "bitcoin[\"target\"]",
+        "kind": 5,
+        "importPath": "Bitcoin.main",
+        "description": "Bitcoin.main",
+        "peekOfCode": "bitcoin[\"target\"] = bitcoin[\"close\"].shift(-1) # target - close следующего дня/ но мы создали еще один NAN\n# [:-1] \"все, кроме последнего элемента\"\nX = bitcoin[:-1].drop(\"target\", axis=1)\ny = bitcoin[:-1].target\n# Разбиваем на тренировочную и тестовую выборку\n# train - обучающая - учебник - X-train, y-train\n# test - проверочная - экзамен - Даем модели X_test\n# и просим сделать предсказание y_pred, и сравнием с  y _test\nX_train, X_test, y_train, y_test = train_test_split(X,y, test_size = 0.33) # разделяем и отдаем 33% на тестовую выборку\ndef try_model(model):",
+        "detail": "Bitcoin.main",
+        "documentation": {}
+    },
+    {
+        "label": "X",
+        "kind": 5,
+        "importPath": "Bitcoin.main",
+        "description": "Bitcoin.main",
+        "peekOfCode": "X = bitcoin[:-1].drop(\"target\", axis=1)\ny = bitcoin[:-1].target\n# Разбиваем на тренировочную и тестовую выборку\n# train - обучающая - учебник - X-train, y-train\n# test - проверочная - экзамен - Даем модели X_test\n# и просим сделать предсказание y_pred, и сравнием с  y _test\nX_train, X_test, y_train, y_test = train_test_split(X,y, test_size = 0.33) # разделяем и отдаем 33% на тестовую выборку\ndef try_model(model):\n    model.fit(X_train,y_train) # Обучаем модель на тренировочной выборке\n    y_pred = model.predict(X_test) # Проверяем модель на тестовой выборке",
+        "detail": "Bitcoin.main",
+        "documentation": {}
+    },
+    {
+        "label": "y",
+        "kind": 5,
+        "importPath": "Bitcoin.main",
+        "description": "Bitcoin.main",
+        "peekOfCode": "y = bitcoin[:-1].target\n# Разбиваем на тренировочную и тестовую выборку\n# train - обучающая - учебник - X-train, y-train\n# test - проверочная - экзамен - Даем модели X_test\n# и просим сделать предсказание y_pred, и сравнием с  y _test\nX_train, X_test, y_train, y_test = train_test_split(X,y, test_size = 0.33) # разделяем и отдаем 33% на тестовую выборку\ndef try_model(model):\n    model.fit(X_train,y_train) # Обучаем модель на тренировочной выборке\n    y_pred = model.predict(X_test) # Проверяем модель на тестовой выборке\n    print(model)",
+        "detail": "Bitcoin.main",
+        "documentation": {}
+    },
+    {
+        "label": "rfr",
+        "kind": 5,
+        "importPath": "Bitcoin.main",
+        "description": "Bitcoin.main",
+        "peekOfCode": "rfr = RandomForestRegressor()\nrfr.feature_importances_ # важность колонок, показывает влияние колонок оказываемое на модель\npd.DataFrame(data = [rfr.feature_importances_], columns = X.columns).T.sort_values(by = 0, ascending = False) # Выведем колонки в порядке важности\ntry_model(RandomForestRegressor(n_estimators=1000000))\ntry_model(LinearRegression())\n# ToDo: Пробовать разные модели\n# ToDo: Пробовать разные настройки ?\n# ToDo: Оценить модель разными метриками качества\n# ToDo: Пробуем разные данные (Feature Engineering)\n# Задание 1. Используйте модель MLPRegressor для предсказаний и попробуйте  поменять ее настройки чтобы получить ошибки(mae, max, r2) меньше чем было  в эфире",
+        "detail": "Bitcoin.main",
+        "documentation": {}
+    },
+    {
+        "label": "pd.DataFrame(data",
+        "kind": 5,
+        "importPath": "Bitcoin.main",
+        "description": "Bitcoin.main",
+        "peekOfCode": "pd.DataFrame(data = [rfr.feature_importances_], columns = X.columns).T.sort_values(by = 0, ascending = False) # Выведем колонки в порядке важности\ntry_model(RandomForestRegressor(n_estimators=1000000))\ntry_model(LinearRegression())\n# ToDo: Пробовать разные модели\n# ToDo: Пробовать разные настройки ?\n# ToDo: Оценить модель разными метриками качества\n# ToDo: Пробуем разные данные (Feature Engineering)\n# Задание 1. Используйте модель MLPRegressor для предсказаний и попробуйте  поменять ее настройки чтобы получить ошибки(mae, max, r2) меньше чем было  в эфире\n# Задание 2. Попробуйте использовать три других модели регрессии из sklearn(которые мы еще не пробовали), попробуйте указать какие-то настройки модели(см. документацию) так чтобы получить как можно меньшую ошибку\n# Задание 3. Попробуйте делать предсказания не на 1 день вперед(мы делали предсказание на завтра) а на 5 дней вперед, т.е. Предсказывать курс, которые будет через 5 дней, что получится?",
+        "detail": "Bitcoin.main",
+        "documentation": {}
+    },
+    {
+        "label": "trips_data",
+        "kind": 5,
+        "importPath": "RandomForest.main",
+        "description": "RandomForest.main",
+        "peekOfCode": "trips_data = pandas.read_excel(\"Machine_Learning/trips_data.xlsx\")\n#trips_data_salary = plt.hist(trips_data['salary'])\n#trips_data_age = plt.hist(trips_data['age']) # сохраняет в переменную выборку по возрасту\n#plt.show()\n#print(trips_data.query('age > 25 & salary > 230000')) # Находит все строчки возраст которых больше 25 и зп больше 230000\ntrips_data_correct = pandas.get_dummies(trips_data, columns = ['city', 'transport_preference', 'vacation_preference']) # заменяем все буквенные стобцы - циферными значениями\n# trips_data_correct.to_excel(\"trips_data_output.xlsx\") # записываем полученную таблицу в файл trips_data_output\ny = trips_data_correct.target # Куда человек поедет в отпуск? то что мы пытаемся предсказать\nx = trips_data_correct.drop('target', axis = 1) # выбираем все, кроме колонки (axis = 0) target. \n# Подключаем библиотеку прогноза",
+        "detail": "RandomForest.main",
+        "documentation": {}
+    },
+    {
+        "label": "#trips_data_salary",
+        "kind": 5,
+        "importPath": "RandomForest.main",
+        "description": "RandomForest.main",
+        "peekOfCode": "#trips_data_salary = plt.hist(trips_data['salary'])\n#trips_data_age = plt.hist(trips_data['age']) # сохраняет в переменную выборку по возрасту\n#plt.show()\n#print(trips_data.query('age > 25 & salary > 230000')) # Находит все строчки возраст которых больше 25 и зп больше 230000\ntrips_data_correct = pandas.get_dummies(trips_data, columns = ['city', 'transport_preference', 'vacation_preference']) # заменяем все буквенные стобцы - циферными значениями\n# trips_data_correct.to_excel(\"trips_data_output.xlsx\") # записываем полученную таблицу в файл trips_data_output\ny = trips_data_correct.target # Куда человек поедет в отпуск? то что мы пытаемся предсказать\nx = trips_data_correct.drop('target', axis = 1) # выбираем все, кроме колонки (axis = 0) target. \n# Подключаем библиотеку прогноза\nmodel = RandomForestClassifier()",
+        "detail": "RandomForest.main",
+        "documentation": {}
+    },
+    {
+        "label": "#trips_data_age",
+        "kind": 5,
+        "importPath": "RandomForest.main",
+        "description": "RandomForest.main",
+        "peekOfCode": "#trips_data_age = plt.hist(trips_data['age']) # сохраняет в переменную выборку по возрасту\n#plt.show()\n#print(trips_data.query('age > 25 & salary > 230000')) # Находит все строчки возраст которых больше 25 и зп больше 230000\ntrips_data_correct = pandas.get_dummies(trips_data, columns = ['city', 'transport_preference', 'vacation_preference']) # заменяем все буквенные стобцы - циферными значениями\n# trips_data_correct.to_excel(\"trips_data_output.xlsx\") # записываем полученную таблицу в файл trips_data_output\ny = trips_data_correct.target # Куда человек поедет в отпуск? то что мы пытаемся предсказать\nx = trips_data_correct.drop('target', axis = 1) # выбираем все, кроме колонки (axis = 0) target. \n# Подключаем библиотеку прогноза\nmodel = RandomForestClassifier()\nmodel.fit(x, y) # обучаем модель, ищет закономерности между x и y",
+        "detail": "RandomForest.main",
+        "documentation": {}
+    },
+    {
+        "label": "trips_data_correct",
+        "kind": 5,
+        "importPath": "RandomForest.main",
+        "description": "RandomForest.main",
+        "peekOfCode": "trips_data_correct = pandas.get_dummies(trips_data, columns = ['city', 'transport_preference', 'vacation_preference']) # заменяем все буквенные стобцы - циферными значениями\n# trips_data_correct.to_excel(\"trips_data_output.xlsx\") # записываем полученную таблицу в файл trips_data_output\ny = trips_data_correct.target # Куда человек поедет в отпуск? то что мы пытаемся предсказать\nx = trips_data_correct.drop('target', axis = 1) # выбираем все, кроме колонки (axis = 0) target. \n# Подключаем библиотеку прогноза\nmodel = RandomForestClassifier()\nmodel.fit(x, y) # обучаем модель, ищет закономерности между x и y\n# куда поедем?\nsample = {'salary': [80000], \n'age': [32], ",
+        "detail": "RandomForest.main",
+        "documentation": {}
+    },
+    {
+        "label": "y",
+        "kind": 5,
+        "importPath": "RandomForest.main",
+        "description": "RandomForest.main",
+        "peekOfCode": "y = trips_data_correct.target # Куда человек поедет в отпуск? то что мы пытаемся предсказать\nx = trips_data_correct.drop('target', axis = 1) # выбираем все, кроме колонки (axis = 0) target. \n# Подключаем библиотеку прогноза\nmodel = RandomForestClassifier()\nmodel.fit(x, y) # обучаем модель, ищет закономерности между x и y\n# куда поедем?\nsample = {'salary': [80000], \n'age': [32], \n'family_members': [1], \n'city_Екатеринбург': [0], ",
+        "detail": "RandomForest.main",
+        "documentation": {}
+    },
+    {
+        "label": "x",
+        "kind": 5,
+        "importPath": "RandomForest.main",
+        "description": "RandomForest.main",
+        "peekOfCode": "x = trips_data_correct.drop('target', axis = 1) # выбираем все, кроме колонки (axis = 0) target. \n# Подключаем библиотеку прогноза\nmodel = RandomForestClassifier()\nmodel.fit(x, y) # обучаем модель, ищет закономерности между x и y\n# куда поедем?\nsample = {'salary': [80000], \n'age': [32], \n'family_members': [1], \n'city_Екатеринбург': [0], \n'city_Киев': [0], ",
+        "detail": "RandomForest.main",
+        "documentation": {}
+    },
+    {
+        "label": "model",
+        "kind": 5,
+        "importPath": "RandomForest.main",
+        "description": "RandomForest.main",
+        "peekOfCode": "model = RandomForestClassifier()\nmodel.fit(x, y) # обучаем модель, ищет закономерности между x и y\n# куда поедем?\nsample = {'salary': [80000], \n'age': [32], \n'family_members': [1], \n'city_Екатеринбург': [0], \n'city_Киев': [0], \n'city_Краснодар': [0], \n'city_Минск': [0], ",
+        "detail": "RandomForest.main",
+        "documentation": {}
+    },
+    {
+        "label": "sample",
+        "kind": 5,
+        "importPath": "RandomForest.main",
+        "description": "RandomForest.main",
+        "peekOfCode": "sample = {'salary': [80000], \n'age': [32], \n'family_members': [1], \n'city_Екатеринбург': [0], \n'city_Киев': [0], \n'city_Краснодар': [0], \n'city_Минск': [0], \n'city_Москва': [0], \n'city_Новосибирск': [0], \n'city_Омск': [0], ",
+        "detail": "RandomForest.main",
+        "documentation": {}
+    },
+    {
+        "label": "sample_df",
+        "kind": 5,
+        "importPath": "RandomForest.main",
+        "description": "RandomForest.main",
+        "peekOfCode": "sample_df = pandas.DataFrame(sample, columns = x.columns)\nsample_df.head()\npredict_sample = model.predict(sample_df) # делаем предсказание на основе параметров человека в simple, куда ему отправится на отдых\npredict_proba_sample = model.predict_proba(sample_df) # Описываем предсказанное решение (выдаст вероятности каждого класса (города))\nprint(predict_sample)\nprint(predict_proba_sample)\n#Пользуйтесь документацией, гуглом\n#2. С помощью pandas, найти:\n#   — Самых взрослых людей в каждом городе\n#   — У кого из любителей Самолетов самая высокая зарплата?",
+        "detail": "RandomForest.main",
+        "documentation": {}
+    },
+    {
+        "label": "predict_sample",
+        "kind": 5,
+        "importPath": "RandomForest.main",
+        "description": "RandomForest.main",
+        "peekOfCode": "predict_sample = model.predict(sample_df) # делаем предсказание на основе параметров человека в simple, куда ему отправится на отдых\npredict_proba_sample = model.predict_proba(sample_df) # Описываем предсказанное решение (выдаст вероятности каждого класса (города))\nprint(predict_sample)\nprint(predict_proba_sample)\n#Пользуйтесь документацией, гуглом\n#2. С помощью pandas, найти:\n#   — Самых взрослых людей в каждом городе\n#   — У кого из любителей Самолетов самая высокая зарплата?\n#   — Кто предпочитает Архитектуру, люди с высокой зарплатой или с низкой?",
+        "detail": "RandomForest.main",
+        "documentation": {}
+    },
+    {
+        "label": "predict_proba_sample",
+        "kind": 5,
+        "importPath": "RandomForest.main",
+        "description": "RandomForest.main",
+        "peekOfCode": "predict_proba_sample = model.predict_proba(sample_df) # Описываем предсказанное решение (выдаст вероятности каждого класса (города))\nprint(predict_sample)\nprint(predict_proba_sample)\n#Пользуйтесь документацией, гуглом\n#2. С помощью pandas, найти:\n#   — Самых взрослых людей в каждом городе\n#   — У кого из любителей Самолетов самая высокая зарплата?\n#   — Кто предпочитает Архитектуру, люди с высокой зарплатой или с низкой?",
+        "detail": "RandomForest.main",
+        "documentation": {}
+    }
+]
